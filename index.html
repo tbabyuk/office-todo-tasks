@@ -7,6 +7,36 @@
     <title>DCAM Daily To Dos</title>
 </head>
 <body>
-    test
+    <div id="container">
+        <form id="create_item">
+            <div id="new_item_container">
+                <input id="input_new_item" type="text" placeholder="New To Do item">
+            </div>
+            <div id="form_fields">
+                <div class="form-group">
+                    <input type="radio" id="high" value="high" name="importance">
+                    <label for="high">High Importance</label>    
+                </div>
+                <div class="form-group">
+                    <input type="radio" id="medium" value="medium" name="importance">
+                    <label for="medium">Medium Importance</label>    
+                </div>
+                <div class="form-group">
+                    <input type="radio" id="low" value="low" name="importance">
+                    <label for="low">Low Importance</label>    
+                </div>
+            </div>
+            <div id="button_container">
+                <button id="btn_add_item">Add Item</button>
+            </div>
+        </form>
+        <div class="heading">Items To Do</div>
+        <div class="heading">Items In Progress</div>
+        <div class="heading">Completed Items</div>
+        <div id="items_column">bottom left</div>
+        <div>bottom middle</div>
+        <div>bottom right</div>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>

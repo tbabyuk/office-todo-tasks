@@ -7,4 +7,65 @@
 
 body {
     background-color: darkslategray;
+    display: grid;
+    place-items: center;
+}
+
+
+#container {
+    width: 90%;
+    height: 80%;
+    background-color: gray;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 10fr;
+}
+
+#container > div {
+    border: 2px solid black;
+}
+
+#create_item {
+    grid-column: span 3;
+    background-color: darkslategray;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+}
+
+#form_fields {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+#todo_item_name {
+    background-color: purple;
+}
+
+#new_item_container {
+    display: grid;
+    place-items: center;
+}
+
+#new_item_container input {
+    height: 80%;
+    width: 80%;
+}
+
+#button_container {
+    display: grid;
+    place-items: center;
+}
+
+#button_container button {
+    height: 80%;
+    width: 80%;
+    background-color: gray;
+    cursor: pointer;
+}
+
+.heading {
+    display: grid;
+    place-items: center;
+    font-size: large;
 }
