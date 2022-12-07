@@ -3,6 +3,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Fant Awesome Kit -->
+    <script src="https://kit.fontawesome.com/386f0d29b2.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
     <title>DCAM Daily To Dos</title>
 </head>
@@ -14,16 +16,16 @@
             </div>
             <div id="form_fields">
                 <div class="form-group">
-                    <input type="radio" id="high" value="high" name="importance">
-                    <label for="high">High Importance</label>    
+                    <input type="radio" id="low" value="low" name="importance" checked>
+                    <label for="low">Low</label>    
                 </div>
                 <div class="form-group">
                     <input type="radio" id="medium" value="medium" name="importance">
-                    <label for="medium">Medium Importance</label>    
+                    <label for="medium">Medium</label>    
                 </div>
                 <div class="form-group">
-                    <input type="radio" id="low" value="low" name="importance">
-                    <label for="low">Low Importance</label>    
+                    <input type="radio" id="high" value="high" name="importance">
+                    <label for="high">High</label>    
                 </div>
             </div>
             <div id="button_container">
@@ -33,9 +35,9 @@
         <div class="heading">Items To Do</div>
         <div class="heading">Items In Progress</div>
         <div class="heading">Completed Items</div>
-        <div id="items_column">bottom left</div>
-        <div>bottom middle</div>
-        <div>bottom right</div>
+        <div class="display" id="items_column"></div>
+        <div class="display" id="progress_column"></div>
+        <div class="display" id="completed_column"></div>
     </div>
     <script src="script.js"></script>
 </body>
