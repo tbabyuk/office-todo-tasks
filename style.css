@@ -97,8 +97,17 @@ body {
     right: 10px;
 }
 
+.edit {
+    position: absolute;
+    right: 30px;
+}
+
+.edit:hover {
+    rotate: 15deg;
+}
+
 .delete:hover {
-    transform: rotate(20deg);
+    rotate: 15deg;
 }
 
 .high {

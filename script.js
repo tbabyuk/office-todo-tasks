@@ -21,7 +21,7 @@ inputNewItem.addEventListener("focus", () => {
 
 const createItem = (name, importance) => {
     const newItem = `
-        <li class="to-do-item ${importance}">${name}<i class="far fa-trash-alt delete"></i></li>
+        <li class="to-do-item ${importance}">${name}<i class="far fa-edit edit"></i><i class="far fa-trash-alt delete"></i></li>
     `;
     itemsColumn.innerHTML += newItem;
     inputNewItem.value = "";
@@ -64,6 +64,12 @@ itemsColumn.addEventListener("click", e => {
         progressColumn.append(item);
     } else if(e.target.className.includes("delete")) {
         deleteItem(e.target.parentElement)
+    } else if(e.target.className.includes("edit")) {
+        let target = e.target.parentElement;
+        console.log(target)
+        let res = prompt("Enter new item name");
+        console.log(res)
+        target.innerHTML = res + '<i class="far fa-edit edit"></i><i class="far fa-trash-alt delete"></i>';
     }
 });
 
