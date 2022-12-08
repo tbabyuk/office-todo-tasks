@@ -1,5 +1,6 @@
 // DOM Elements
 
+const container = document.querySelector("#container");
 const inputNewItem = document.querySelector("#input_new_item");
 const importanceLevels = document.getElementsByName("importance");
 const btnAddItem = document.querySelector("#btn_add_item");
@@ -8,12 +9,6 @@ const progressColumn = document.querySelector("#progress_column");
 const completedColumn = document.querySelector("#completed_column");
 
 
-// console.log(test)
-
-
-// test.forEach(item => {
-//     console.log(item.checked)
-// })
 
 inputNewItem.addEventListener("focus", () => {
     inputNewItem.value = "";
@@ -21,7 +16,7 @@ inputNewItem.addEventListener("focus", () => {
 
 const createItem = (name, importance) => {
     const newItem = `
-        <li class="to-do-item ${importance}">${name}<i class="far fa-edit edit"></i><i class="far fa-trash-alt delete"></i></li>
+        <li class="to-do-item ${importance}">${name}<i class="far fa-edit edit"></i><i class="far fa-trash-alt delete"></i><i class="fas fa-chevron-circle-right move"></i></li>
     `;
     itemsColumn.innerHTML += newItem;
     inputNewItem.value = "";
@@ -34,7 +29,7 @@ btnAddItem.addEventListener("click", (e) => {
 
     if(inputNewItem.value != "") {
 
-    const itemName = inputNewItem.value;
+    const itemName = inputNewItem.value.toLowerCase();
     let importanceLevel = "";
 
     importanceLevels.forEach(level => {
@@ -51,43 +46,42 @@ btnAddItem.addEventListener("click", (e) => {
 });
 
 
-const deleteItem = (item) => {
-    item.remove();
-}
 
+// FUNCTIONS
 
-
-itemsColumn.addEventListener("click", e => {
-    if(e.target.className.includes("to-do-item")) {
-        console.log("you clicked on a to do item");
-        const item = e.target;
+// move a todo item
+const moveItem = item => {
+    if(item.parentElement.id === "items_column") {
         progressColumn.append(item);
-    } else if(e.target.className.includes("delete")) {
-        deleteItem(e.target.parentElement)
-    } else if(e.target.className.includes("edit")) {
-        let target = e.target.parentElement;
-        console.log(target)
-        let res = prompt("Enter new item name");
-        console.log(res)
-        target.innerHTML = res + '<i class="far fa-edit edit"></i><i class="far fa-trash-alt delete"></i>';
-    }
-});
-
-
-progressColumn.addEventListener("click", e => {
-    if(e.target.className.includes("to-do-item")) {
-        console.log("you clicked on a to do item");
-        const item = e.target;
+    } else {
         completedColumn.append(item);
         item.classList.add("gray");
-    } else if(e.target.className.includes("delete")) {
-        deleteItem(e.target.parentElement)
     }
-});
+};
 
-completedColumn.addEventListener("click", e => {
-    if(e.target.className.includes("delete")) {
-        deleteItem(e.target.parentElement)
+
+// delete a todo item
+const deleteItem = (item) => {
+    item.remove();
+};
+
+
+//edit a todo item
+const editItem = (target, content) => {
+    target.innerHTML = content + '<i class="far fa-edit edit"></i><i class="far fa-trash-alt delete"></i><i class="fas fa-chevron-circle-right move"></i>';
+};
+
+
+
+// EVENT LISTENER ON CONTAINER, WITH BUBBLING
+container.addEventListener("click", e => {
+    if(e.target.className.includes("move")) {
+        moveItem(e.target.parentElement);
+    } else if(e.target.className.includes("delete")) {
+        deleteItem(e.target.parentElement);
+    } else if(e.target.className.includes("edit")) {
+        let content = prompt("Enter new item name").toLowerCase();
+        editItem(e.target.parentElement, content);
     }
 });
 

@@ -17,7 +17,7 @@ body {
 
 
 #container {
-    width: 90%;
+    width: 95%;
     height: 90%;
     background-color: #bfbfbf;
     display: grid;
@@ -92,14 +92,23 @@ body {
     position: relative;
 }
 
-.delete {
+.move {
     position: absolute;
     right: 10px;
 }
 
+.move:hover {
+    rotate: 15deg;
+}
+
+.delete {
+    position: absolute;
+    right: 35px;
+}
+
 .edit {
     position: absolute;
-    right: 30px;
+    right: 56px;
 }
 
 .edit:hover {
@@ -109,6 +118,8 @@ body {
 .delete:hover {
     rotate: 15deg;
 }
+
+
 
 .high {
     background-color: red;
