@@ -55,7 +55,7 @@ const moveItem = item => {
         progressColumn.append(item);
     } else {
         completedColumn.append(item);
-        item.classList.add("gray");
+        item.classList.add("green");
     }
 };
 
