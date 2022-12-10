@@ -2,18 +2,17 @@
 
 const container = document.querySelector("#container");
 const inputNewItem = document.querySelector("#new_item_input");
+const formCreateItem = document.querySelector("#create_item_form");
 const importanceLevels = document.getElementsByName("importance");
-const btnAddItem = document.querySelector("#add_item_btn");
 const itemsColumn = document.querySelector("#items_column");
 const progressColumn = document.querySelector("#progress_column");
 const completedColumn = document.querySelector("#completed_column");
 
 
 
-inputNewItem.addEventListener("focus", () => {
-    inputNewItem.value = "";
-})
+// FUNCTIONS
 
+// create a new to-do item
 const createItem = (name, importance) => {
     const newItem = `
         <li class="to-do-item ${importance}">${name}<i class="far fa-edit edit"></i><i class="far fa-trash-alt delete"></i><i class="fas fa-chevron-circle-right move"></i></li>
@@ -21,33 +20,20 @@ const createItem = (name, importance) => {
     itemsColumn.innerHTML += newItem;
     inputNewItem.value = "";
     inputNewItem.focus();
-}
+};
 
 
-btnAddItem.addEventListener("click", (e) => {
-    e.preventDefault();
-
-    if(inputNewItem.value != "") {
-
-    const itemName = inputNewItem.value.toLowerCase();
-    let importanceLevel = "";
-
-    importanceLevels.forEach(level => {
-        if(level.checked) {
-            importanceLevel = level.value;
-        }
-    })
-
-    createItem(itemName, importanceLevel);
-} else {
-    alert("please enter a to do item")
-    inputNewItem.focus();
-}
-});
+//edit a todo item
+const editItem = (target, content) => {
+    target.innerHTML = content + '<i class="far fa-edit edit"></i><i class="far fa-trash-alt delete"></i><i class="fas fa-chevron-circle-right move"></i>';
+};
 
 
+// delete a todo item
+const deleteItem = item => {
+    item.remove();
+};
 
-// FUNCTIONS
 
 // move a todo item
 const moveItem = item => {
@@ -60,30 +46,46 @@ const moveItem = item => {
 };
 
 
-// delete a todo item
-const deleteItem = (item) => {
-    item.remove();
-};
+// =========================================================
 
 
-//edit a todo item
-const editItem = (target, content) => {
-    target.innerHTML = content + '<i class="far fa-edit edit"></i><i class="far fa-trash-alt delete"></i><i class="fas fa-chevron-circle-right move"></i>';
-};
+// EVENT LISTENERS
 
-
-
-// EVENT LISTENER ON CONTAINER, WITH BUBBLING
-container.addEventListener("click", e => {
-    if(e.target.className.includes("move")) {
-        moveItem(e.target.parentElement);
-    } else if(e.target.className.includes("delete")) {
-        deleteItem(e.target.parentElement);
-    } else if(e.target.className.includes("edit")) {
-        let content = prompt("Enter new item name").toLowerCase();
-        editItem(e.target.parentElement, content);
-    }
+// submit event for creating a new to-do item
+formCreateItem.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if(inputNewItem.value != "") {
+    const itemName = inputNewItem.value.toLowerCase();
+    let importanceLevel = "";
+    importanceLevels.forEach(level => {
+        if(level.checked) {
+            importanceLevel = level.value;
+        }
+    });
+    createItem(itemName, importanceLevel);
+} else {
+    alert("please enter a to-do item")
+    inputNewItem.focus();
+}
 });
 
+
+// clearning text from input
+inputNewItem.addEventListener("focus", () => {
+    inputNewItem.value = "";
+});
+
+
+// event bubbling on container, for editing, deleting, and moving to-do items
+container.addEventListener("click", e => {
+    if(e.target.className.includes("edit")) {
+        let content = prompt("Enter new item name").toLowerCase();
+        editItem(e.target.parentElement, content);
+    } else if(e.target.className.includes("delete")) {
+        deleteItem(e.target.parentElement);
+    } else if(e.target.className.includes("move")) {
+        moveItem(e.target.parentElement);
+    }
+});
 
 

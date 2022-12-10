@@ -15,7 +15,6 @@
     --dcam-red: #eb5160;
 }
 
-
 body {
     background-color: var(--dcam-blue);
     display: grid;
