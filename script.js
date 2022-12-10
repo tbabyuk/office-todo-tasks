@@ -1,9 +1,9 @@
 // DOM Elements
 
 const container = document.querySelector("#container");
-const inputNewItem = document.querySelector("#input_new_item");
+const inputNewItem = document.querySelector("#new_item_input");
 const importanceLevels = document.getElementsByName("importance");
-const btnAddItem = document.querySelector("#btn_add_item");
+const btnAddItem = document.querySelector("#add_item_btn");
 const itemsColumn = document.querySelector("#items_column");
 const progressColumn = document.querySelector("#progress_column");
 const completedColumn = document.querySelector("#completed_column");
@@ -55,7 +55,7 @@ const moveItem = item => {
         progressColumn.append(item);
     } else {
         completedColumn.append(item);
-        item.classList.add("green");
+        item.classList.add("completed");
     }
 };
 
