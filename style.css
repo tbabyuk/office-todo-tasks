@@ -11,68 +11,33 @@
     --dcam-blue: #216dab;
     --dcam-light-blue: #68ace3;
     --dcam-green: #4aad52;
-    --dcam-orange: #fc7753;
+    --dcam-orange: #e08e45;
     --dcam-red: #eb5160;
+    --dcam-gray: #bfbfbf;
 }
 
 body {
     background-color: var(--dcam-blue);
-    display: grid;
-    place-items: center;
     font-family: 'Roboto', sans-serif;
-}
-
-#container {
-    width: 95%;
-    height: 90%;
-    background-color: #bfbfbf;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 12fr;
-}
-
-#container > div {
-    border: 1px solid var(--dcam-blue);
 }
 
 
 /* CREATE NEW ITEM FORM (top row) */
 
-#create_item_form {
-    grid-column: span 3;
-    background-color: var(--dcam-blue);
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+ #create-item-form {
+    height: 40px;
 }
 
-#new_item_container {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
-
-#new_item_input {
-    height: 80%;
+#new-item-input {
+    height: 100%;
     width: 100%;
     padding-left: 10px;
 }
 
-#radio_group_container {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    color: #eee;
-}
-
-#add_item_container {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-}
-
-#add_item_btn {
-    height: 80%;
+#add-item-btn {
+    height: 100%;
     width: 100%;
+    color: #fff;
     background-color: var(--dcam-green);
     border: none;
     cursor: pointer;
@@ -85,57 +50,35 @@ body {
 
 /* TABLE STYLING */
 
-.heading {
-    display: grid;
-    place-items: center;
-    font-size: large;
-    font-weight: bold;
-    color: #323232;
-}
-
-.display {
-    padding: 20px;
+#table-items-container {
+    height: 80%;
 }
 
 
 /* TO DO ITEMS STYLING */
 
 .to-do-item {
-    border: 1px solid black;
-    padding: 5px 10px;
     border-radius: 5px;
     color: #eeeeee;
     list-style-type: none;
-    margin-bottom: 10px;
+    padding: 5px 10px;
+    margin: 10px 0;
+    display: grid;
+    grid-template-columns: 80% 20%;
     cursor: pointer;
-    position: relative;
 }
 
-.edit {
-    position: absolute;
-    right: 56px;
-}
-
-.edit:hover {
-    rotate: 15deg;
-}
-
-.delete {
-    position: absolute;
-    right: 35px;
-}
-
-.delete:hover {
-    rotate: 15deg;
-}
-
-.move {
-    position: absolute;
-    right: 10px;
-}
-
+.edit:hover, 
+.delete:hover, 
 .move:hover {
     rotate: 15deg;
+}
+
+
+/* GLOBAL */
+
+.bg-gray {
+    background-color: var(--dcam-gray);
 }
 
 .high {
@@ -153,4 +96,3 @@ body {
 .completed {
     background-color: var(--dcam-green);
 }
-
