@@ -43,7 +43,7 @@ body {
     cursor: pointer;
 }
 
-#add_item_btn:hover {
+#add-item-btn:hover {
     background-color: hsl(125, 40%, 50%);
 }
 
