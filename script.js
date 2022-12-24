@@ -59,7 +59,7 @@ const moveItem = item => {
 formCreateItem.addEventListener("submit", (e) => {
     e.preventDefault();
     if(inputNewItem.value != "") {
-    const itemName = inputNewItem.value.toLowerCase();
+    const itemName = inputNewItem.value;
     let importanceLevel = "";
     importanceLevels.forEach(level => {
         if(level.checked) {
@@ -83,7 +83,7 @@ inputNewItem.addEventListener("focus", () => {
 // event bubbling on container, for editing, deleting, and moving to-do items
 table.addEventListener("click", e => {
     if(e.target.className.includes("edit")) {
-        let content = prompt("Enter new item name").toLowerCase();
+        let content = prompt("Enter new item name");
         editItem(e.target.parentElement.previousElementSibling, content);
     } else if(e.target.className.includes("delete")) {
         deleteItem(e.target.parentElement.parentElement);
