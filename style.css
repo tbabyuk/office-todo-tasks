@@ -21,6 +21,12 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+/* TOP SECTION STYLING */
+
+#logo {
+    width: 10%;
+}
+
 
 /* CREATE NEW ITEM FORM (top row) */
 
@@ -51,7 +57,7 @@ body {
 /* TABLE STYLING */
 
 #table-items-container {
-    height: 80%;
+    height: 72%;
 }
 
 

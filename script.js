@@ -7,7 +7,15 @@ const importanceLevels = document.getElementsByName("importance");
 const itemsColumn = document.querySelector("#items-column");
 const progressColumn = document.querySelector("#progress-column");
 const completedColumn = document.querySelector("#completed-column");
+const date = document.querySelector("#date");
 
+// DATE
+
+const locale = navigator.language;
+
+const today = new Date();
+const dateFormatted = today.toLocaleString(locale, { dateStyle: "full" });
+date.innerText = dateFormatted;
 
 
 // FUNCTIONS
