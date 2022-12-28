@@ -3,7 +3,7 @@
 // CDN imports
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-analytics.js";
-import { getFirestore, doc, deleteDoc, getDoc, getDocs, query, orderBy, addDoc, collection, Timestamp, where } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+import { getFirestore, doc, deleteDoc, getDoc, getDocs, query, orderBy, addDoc, collection, Timestamp, updateDoc, where } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -97,14 +97,37 @@ const createItem = async (name, importance) => {
 
 
 //edit a todo item
-const editItem = (target, content) => {
+
+const updateTodoInDB = async (id, content) => {
+    const docRef = doc(db, "todos", id);
+
+    // const docSnap = await getDoc(docRef);
+    // console.log(docSnap.data())
+    // Set the "capital" field of the city 'DC'
+    await updateDoc(docRef, {
+    name: content
+    });
+};
+
+
+const editItem = async (target, content) => {
+
+    const oldContent = target.innerText;
+    console.log(oldContent);
+
+    const colRef = collection(db, "todos");
+
+    const q = query(colRef, where("name", "==", oldContent));
+    const result = await getDocs(q)
+    const res = result.forEach(doc => updateTodoInDB(doc.id, content));
+
     target.innerText = content;
 };
 
 
 // delete a todo item
 
-const deleteFromDB = id => {
+const deleteTodoInDB = id => {
     const docRef = doc(db, "todos", id);
     deleteDoc(docRef);
 }
@@ -120,7 +143,7 @@ const deleteItem = async item => {
     const colRef = collection(db, "todos");
     const q = query(colRef, where("name", "==", itemText));
     const result = await getDocs(q)
-    const res = result.forEach(doc => deleteFromDB(doc.id));
+    const res = result.forEach(doc => deleteTodoInDB(doc.id));
 };
 
 
