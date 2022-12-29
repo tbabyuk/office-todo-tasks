@@ -3,7 +3,7 @@
 // CDN imports
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-analytics.js";
-import { getFirestore, doc, deleteDoc, getDoc, getDocs, query, orderBy, addDoc, collection, Timestamp, updateDoc, where } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+import { getFirestore, doc, deleteDoc, getDocs, query, orderBy, addDoc, collection, serverTimestamp, updateDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -79,12 +79,11 @@ retrieveTodos();
 const createItem = async (name, importance) => {
 
     // add new todo to firestore
-    const now = new Date();
     const colRef = collection(db, "todos");
     const newDoc = await addDoc(colRef, {
         name,
         importance,
-        created_at: Timestamp.fromDate(now)
+        created_at: serverTimestamp()
     })
 
     console.log("Document written with ID: ", newDoc.id);
