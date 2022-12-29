@@ -25,7 +25,6 @@ const db = getFirestore(app);
 
 
 // DOM ELEMENTS
-
 const table = document.querySelector("#table-items-container");
 const inputNewItem = document.querySelector("#new-item-input");
 const formCreateItem = document.querySelector("#create-item-form");
@@ -37,9 +36,7 @@ const date = document.querySelector("#date");
 
 
 // DATE
-
 const locale = navigator.language;
-
 const today = new Date();
 const dateFormatted = today.toLocaleString(locale, { dateStyle: "full" });
 date.innerText = dateFormatted;
@@ -49,113 +46,114 @@ date.innerText = dateFormatted;
 // FUNCTIONS
 
 
-// retrieve todo items from firestore by date created
-
+// RETRIEVE EXISTING TODOS FROM FIRESTORE UPON INITIAL RENDER
 const retrieveTodos = async () => {
-
 
     const colRef = collection(db, "todos");
     const q = query(colRef, orderBy("created_at", "asc"));
-    const docsSnap = await getDocs(q);
-    docsSnap.forEach(doc => {
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach(todo => {
 
     const newItem = `
-    <li class="to-do-item ${doc.data().importance} text-break border">
-        <span class="pe-3">${doc.data().name}</span>
+    <li class="to-do-item ${todo.data().importance} text-break border" data-id=${todo.id}>
+        <span class="pe-3">${todo.data().name}</span>
         <span class="item-buttons d-flex justify-content-between align-items-center"><i class="far fa-edit edit"></i><i class="far fa-trash-alt delete"></i><i class="fas fa-chevron-circle-right move"></i></span>
     </li>
     `;
-    itemsColumn.innerHTML += newItem;
+
+    if(todo.data().column === "progress") {
+        progressColumn.innerHTML += newItem
+    } else if(todo.data().column === "completed") {
+        completedColumn.innerHTML += newItem
+        // newItem.classList.add("completed");
+    } else {
+        itemsColumn.innerHTML += newItem;
+    }
 });
 };
 
 retrieveTodos();
 
 
-// create new todo item
-
+// CREATE NEW TODO
 const createItem = async (name, importance) => {
-    const newItem = `
-        <li class="to-do-item ${importance} text-break border">
-            <span class="pe-3">${name}</span>
-            <span class="item-buttons d-flex justify-content-between align-items-center"><i class="far fa-edit edit"></i><i class="far fa-trash-alt delete"></i><i class="fas fa-chevron-circle-right move"></i></span>
-        </li>
-    `;
-    itemsColumn.innerHTML += newItem;
-    inputNewItem.value = "";
-    inputNewItem.focus();
 
+    // add new todo to firestore
     const now = new Date();
     const colRef = collection(db, "todos");
-    const docRef = await addDoc(colRef, {
+    const newDoc = await addDoc(colRef, {
         name,
         importance,
         created_at: Timestamp.fromDate(now)
     })
-    console.log("Document written with ID: ", docRef.id);
+
+    console.log("Document written with ID: ", newDoc.id);
+
+    // add new todo to UI
+    const newItem = `
+        <li class="to-do-item ${importance} text-break border" data-id=${newDoc.id}>
+            <span class="pe-3">${name}</span>
+            <span class="item-buttons d-flex justify-content-between align-items-center"><i class="far fa-edit edit"></i><i class="far fa-trash-alt delete"></i><i class="fas fa-chevron-circle-right move"></i></span>
+        </li>
+    `;
+
+    itemsColumn.innerHTML += newItem;
+    inputNewItem.value = "";
+    inputNewItem.focus();
 };
 
 
-//edit a todo item
+// EDIT TODO
+const editItem = async (item, content) => {
 
-const updateTodoInDB = async (id, content) => {
-    const docRef = doc(db, "todos", id);
+    // edit todo in UI
+    item.children[0].innerText = content;
 
-    // const docSnap = await getDoc(docRef);
-    // console.log(docSnap.data())
-    // Set the "capital" field of the city 'DC'
+    // edit item in firestore
+    const docRef = doc(db, "todos", item.getAttribute("data-id"))
     await updateDoc(docRef, {
-    name: content
-    });
+        name: content
+    })
 };
 
 
-const editItem = async (target, content) => {
-
-    const oldContent = target.innerText;
-    console.log(oldContent);
-
-    const colRef = collection(db, "todos");
-
-    const q = query(colRef, where("name", "==", oldContent));
-    const result = await getDocs(q)
-    const res = result.forEach(doc => updateTodoInDB(doc.id, content));
-
-    target.innerText = content;
-};
-
-
-// delete a todo item
-
-const deleteTodoInDB = id => {
-    const docRef = doc(db, "todos", id);
-    deleteDoc(docRef);
-}
-
-
+// DELETE TODO
 const deleteItem = async item => {
 
+    // remove todo from UI
     item.remove();
-    const itemText = item.children[0].textContent;
 
-    console.log(itemText)
-    
-    const colRef = collection(db, "todos");
-    const q = query(colRef, where("name", "==", itemText));
-    const result = await getDocs(q)
-    const res = result.forEach(doc => deleteTodoInDB(doc.id));
+    // delete same item from firestore
+    const docRef = doc(db, "todos", item.getAttribute("data-id"))
+    await deleteDoc(docRef);
 };
 
 
-
-// move a todo item
-
-const moveItem = item => {
+// MOVE TODO
+const moveItem = async item => {
     if(item.parentElement.id === "items-column") {
+
+        // move todo to progress column in UI
         progressColumn.append(item);
+
+        // add column field to todo in firestore
+        const docRef = doc(db, "todos", item.getAttribute("data-id"))
+        await updateDoc(docRef, {
+            column: "progress"
+        })
+        .then(() => console.log("item added to progress column"))
+    
     } else {
+
+        // move todo to completed column in UI
         completedColumn.append(item);
-        item.classList.add("completed");
+
+        // add column field to todo in firestore
+        const docRef = doc(db, "todos", item.getAttribute("data-id"))
+        await updateDoc(docRef, {
+            column: "completed"
+        })
+        .then(() => console.log("item added to completed column"))
     }
 };
 
@@ -166,7 +164,6 @@ const moveItem = item => {
 // EVENT LISTENERS
 
 // submit event for creating a new to-do item
-
 formCreateItem.addEventListener("submit", (e) => {
     e.preventDefault();
     if(inputNewItem.value != "") {
@@ -186,18 +183,16 @@ formCreateItem.addEventListener("submit", (e) => {
 
 
 // clearning text from input
-
 inputNewItem.addEventListener("focus", () => {
     inputNewItem.value = "";
 });
 
 
 // event bubbling on container, for editing, deleting, and moving to-do items
-
 table.addEventListener("click", e => {
     if(e.target.className.includes("edit")) {
         let content = prompt("Enter new item name");
-        editItem(e.target.parentElement.previousElementSibling, content);
+        editItem(e.target.parentElement.parentElement, content);
     } else if(e.target.className.includes("delete")) {
         deleteItem(e.target.parentElement.parentElement);
     } else if(e.target.className.includes("move")) {

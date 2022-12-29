@@ -80,6 +80,12 @@ body {
     rotate: 15deg;
 }
 
+/* COMPLETED COLUMN */
+
+#completed-column li {
+    background-color: var(--dcam-green);
+}
+
 
 /* GLOBAL */
 
@@ -97,8 +103,4 @@ body {
 
 .low {
     background-color: var(--dcam-light-blue);
-}
-
-.completed {
-    background-color: var(--dcam-green);
 }
