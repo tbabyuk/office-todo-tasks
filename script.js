@@ -5,7 +5,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebas
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-analytics.js";
 import { getFirestore, doc, deleteDoc, getDocs, query, orderBy, addDoc, collection, serverTimestamp, updateDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
-// Your web app's Firebase configuration
+// project config
 const firebaseConfig = {
     apiKey: "AIzaSyAqQj0yoLFJfXT0s2G5lWk95iuv7cDFlIM",
     authDomain: "dcam-to-dos.firebaseapp.com",
@@ -16,10 +16,11 @@ const firebaseConfig = {
     measurementId: "G-BPQ76FQ98J"
 };
 
-// Initialize Firebase
+// app variables
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getFirestore(app);
+const colRef = collection(db, "todos");
 
 // ==================================================================== //
 
@@ -42,14 +43,11 @@ const dateFormatted = today.toLocaleString(locale, { dateStyle: "full" });
 date.innerText = dateFormatted;
 
 
-
 // FUNCTIONS
 
-
-// RETRIEVE EXISTING TODOS FROM FIRESTORE UPON INITIAL RENDER
+// RETRIEVE EXISTING TODO ITEMS UPON RENDER
 const retrieveTodos = async () => {
 
-    const colRef = collection(db, "todos");
     const q = query(colRef, orderBy("created_at", "asc"));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach(todo => {
@@ -65,7 +63,6 @@ const retrieveTodos = async () => {
         progressColumn.innerHTML += newItem
     } else if(todo.data().column === "completed") {
         completedColumn.innerHTML += newItem
-        // newItem.classList.add("completed");
     } else {
         itemsColumn.innerHTML += newItem;
     }
@@ -79,7 +76,6 @@ retrieveTodos();
 const createItem = async (name, importance) => {
 
     // add new todo to firestore
-    const colRef = collection(db, "todos");
     const newDoc = await addDoc(colRef, {
         name,
         importance,
@@ -119,10 +115,10 @@ const editItem = async (item, content) => {
 // DELETE TODO
 const deleteItem = async item => {
 
-    // remove todo from UI
+    // delete todo from UI
     item.remove();
 
-    // delete same item from firestore
+    // delete same todo from firestore
     const docRef = doc(db, "todos", item.getAttribute("data-id"))
     await deleteDoc(docRef);
 };
@@ -198,4 +194,3 @@ table.addEventListener("click", e => {
         moveItem(e.target.parentElement.parentElement);
     }
 });
-
