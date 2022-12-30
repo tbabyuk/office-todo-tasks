@@ -1,6 +1,6 @@
 # To Do List
 
-See it live: [Office Todo Tasks](http://www.work.dacapomusic.ca/)
+See it live: [Office Todo Tasks](https://astounding-faloodeh-013e02.netlify.app/)
 
 ## Description
 A customized to-do app created for an office/reception business that allows user to create to-do items with different priority levels, edit them at any time, move them different columns depending on their completion status, and delete them. App is fully integrated with Firestore database on the backend, meaning all todo items are saved at all times.
