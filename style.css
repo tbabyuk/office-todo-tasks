@@ -80,10 +80,14 @@ body {
     rotate: 15deg;
 }
 
-/* COMPLETED COLUMN */
+/* UNIQUE STYLES */
 
 #completed-column li {
     background-color: var(--dcam-green);
+}
+
+#hidden {
+    display: none;
 }
 
 
@@ -104,3 +108,19 @@ body {
 .low {
     background-color: var(--dcam-light-blue);
 }
+
+
+
+/* ============================================== */
+
+/* media query specifying minimum screen width */
+
+@media screen and (max-width: 1000px) {
+    #wrapper {
+      display: none;
+    }
+
+    #hidden {
+        display: block;
+    }
+  }

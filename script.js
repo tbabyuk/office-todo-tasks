@@ -7,14 +7,13 @@ import { getFirestore, doc, deleteDoc, getDocs, query, orderBy, addDoc, collecti
 
 // project config
 const firebaseConfig = {
-    apiKey: "AIzaSyAqQj0yoLFJfXT0s2G5lWk95iuv7cDFlIM",
-    authDomain: "dcam-to-dos.firebaseapp.com",
-    projectId: "dcam-to-dos",
-    storageBucket: "dcam-to-dos.appspot.com",
-    messagingSenderId: "183298464467",
-    appId: "1:183298464467:web:e404de14c5d41d9e575226",
-    measurementId: "G-BPQ76FQ98J"
-};
+    apiKey: "AIzaSyCbd6UF4cFmLYwQqZUM7DEWBiT9QB0-3P0",
+    authDomain: "office-todos.firebaseapp.com",
+    projectId: "office-todos",
+    storageBucket: "office-todos.appspot.com",
+    messagingSenderId: "410460877261",
+    appId: "1:410460877261:web:be02544e38922ef92a9484"
+  };
 
 // app variables
 const app = initializeApp(firebaseConfig);
