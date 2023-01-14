@@ -84,6 +84,7 @@ body {
 
 #completed-column li {
     background-color: var(--dcam-green);
+    text-decoration: line-through;
 }
 
 #hidden {
